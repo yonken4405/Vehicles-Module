@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>1E1E1E
+    <color name="normalFont">#1E1E1E</color>
+    <color name="defaultBackground">#F8F8F8</color>
+    <color name="lighterFont">#7F7F7F</color>
+    <color name="yellowFont">#FFD700</color>
+    <color name="colorPrimaryYellow">#F9EF08</color>
+
+
+    <color name="disabledSpinnerColor">#601D1B20</color>
+    <color name="colorPrimary">#6200EE</color> <!-- Indigo 500 -->
+    <color name="colorPrimaryDark">#3700B3</color> <!-- Indigo 700 -->
+    <color name="colorAccent">#03DAC5</color> <!-- Teal 200 -->
+    <color name="colorError">#B00020</color> <!-- Red 700 -->
+    <color name="defaultTextColor">#000000</color> <!-- Black -->
+    <color name="disabledTextColor">#61000000</color> <!-- 38% opacity black -->
+    <color name="errorTextColor">#B00020</color> <!-- Red 700 -->
+
+</resources>

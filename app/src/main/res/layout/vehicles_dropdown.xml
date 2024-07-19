@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingLeft="17dp"
+    android:paddingRight="17dp"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/ivCarPic"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="centerInside"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/sedan" />
+
+    <TextView
+        android:id="@+id/tvCarType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+        android:alpha=".6"
+        android:fontFamily="@font/inter_medium"
+        android:text="Sedan"
+        android:textColor="@color/normalFont"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tvExample"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:alpha=".6"
+        android:fontFamily="@font/inter_semibold"
+        android:text="(EX: Toyota Vios, Honda City, Toyota Corolla) "
+        android:textColor="@color/lighterFont"
+        android:textSize="10sp" />
+
+</LinearLayout>
