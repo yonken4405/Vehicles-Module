@@ -1,9 +1,9 @@
-import android.util.Log
+package com.example.vehiclespage.VehiclesPage
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vehiclespage.R
 import com.example.vehiclespage.vehicleProfile

@@ -145,6 +145,9 @@ class addVehicles : Fragment(R.layout.fragment_add_vehicles) {
                }
                 return@setOnClickListener
             }else{
+
+                Log.e("Submit", "Button Clicked")
+
                 //upload to database
                 databaseReference = FirebaseDatabase.getInstance().getReference("Vehicle Information")
 
@@ -153,9 +156,11 @@ class addVehicles : Fragment(R.layout.fragment_add_vehicles) {
                     ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()) {
+                            Log.e("Submit", "Duplicate on database")
                             // Plate number already exists, show error
                             binding.etVehiclePlateNumber.error = "Plate number already registered"
                         } else {
+                            Log.e("Submit", "Uploaded to database")
                             // Plate number is unique, proceed with upload
                             databaseReference.child(vehiclePlateNumber).setValue(vehicle)
 

@@ -21,4 +21,17 @@
     </style>
 
 
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="cornerRadius">20dp</item>
+        <item name="queryHint">Search Branches</item>
+        <item name="iconifiedByDefault">false</item>
+        <item name="android:textColorHint">@color/lighterFont</item>
+        <item name="android:textColor">@color/primaryFont</item>
+        <item name="android:background">@drawable/searchview_background</item>
+        <item name="queryBackground">@null</item>
+        <item name="iconTint">@null</item>
+    </style>
+
+
+
 </resources>

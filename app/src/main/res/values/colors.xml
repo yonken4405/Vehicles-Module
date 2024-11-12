@@ -7,7 +7,8 @@
     <color name="lighterFont">#7F7F7F</color>
     <color name="yellowFont">#FFD700</color>
     <color name="colorPrimaryYellow">#F9EF08</color>
-
+    <color name="primaryFont">#4B4B4B</color>
+    <color name="secondaryFont">#979797</color>
 
     <color name="disabledSpinnerColor">#601D1B20</color>
     <color name="colorPrimary">#6200EE</color> <!-- Indigo 500 -->

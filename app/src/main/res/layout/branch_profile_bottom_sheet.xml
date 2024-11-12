@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingRight="30dp"
+    android:paddingLeft="30dp"
+    android:paddingBottom="30dp"
+    android:background="@drawable/rounded_botsheet">
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/primaryFont"
+            android:layout_marginBottom="15dp"
+            android:id="@+id/tvName"
+            android:fontFamily="@font/inter_semibold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="P. Mabolo"
+            android:textSize="22sp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:textColor="@color/colorPrimaryYellow"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/status"
+            android:fontFamily="@font/inter_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="Open"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:src="@drawable/loc_map_icon"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="15dp"/>
+
+        <TextView
+            android:textColor="@color/secondaryFont"
+            android:textSize="12sp"
+            android:fontFamily="@font/inter_regular"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+           />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp">
+
+        <ImageView
+            android:layout_gravity="top"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:src="@drawable/marker_icon"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="15dp"/>
+
+        <TextView
+            android:textColor="@color/secondaryFont"
+            android:textSize="12sp"
+            android:fontFamily="@font/inter_regular"
+            android:id="@+id/tvDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.8 km"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:src="@drawable/phone_num_icon"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="15dp"/>
+
+        <TextView
+            android:textColor="@color/secondaryFont"
+            android:textSize="12sp"
+            android:fontFamily="@font/inter_regular"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/tvContactNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone Number"
+             />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_gravity="top"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:src="@drawable/sched_icon"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="15dp"/>
+
+        <TextView
+            android:textColor="@color/secondaryFont"
+            android:textSize="12sp"
+            android:fontFamily="@font/inter_regular"
+            android:id="@+id/tvSchedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Schedule"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/order_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/colorPrimaryYellow"
+        android:fontFamily="@font/inter_semibold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="Make an Order"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:elevation="2dp"/>
+
+
+</LinearLayout>

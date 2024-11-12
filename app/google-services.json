@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "617850312369",
+    "firebase_url": "https://vehiclespage-c30e4-default-rtdb.firebaseio.com",
     "project_id": "vehiclespage-c30e4",
     "storage_bucket": "vehiclespage-c30e4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:617850312369:android:ea1e69a15f39550141b490",
+        "mobilesdk_app_id": "1:617850312369:android:579dbea4d18d853241b490",
         "android_client_info": {
           "package_name": "com.example.vehiclespage"
         }

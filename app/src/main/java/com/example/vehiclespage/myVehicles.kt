@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.vehiclespage.BranchSelectionPage.BranchSelectionFragment
 import com.example.vehiclespage.databinding.FragmentMyVehiclesBinding
 
 class myVehicles : Fragment(R.layout.fragment_my_vehicles), vehicleAdapter.OnVehicleDeletedListener {
@@ -56,6 +57,18 @@ class myVehicles : Fragment(R.layout.fragment_my_vehicles), vehicleAdapter.OnVeh
 
         // *** ADD THIS LINE ***
         vehicleAdapter.setOnVehicleDeletedListener(this)
+
+        binding.btnBack.setOnClickListener {
+            openGoogleMaps()
+        }
+
+    }
+
+    private fun openGoogleMaps(){
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, BranchSelectionFragment())
+            .addToBackStack(null)
+            .commit()
 
     }
 
