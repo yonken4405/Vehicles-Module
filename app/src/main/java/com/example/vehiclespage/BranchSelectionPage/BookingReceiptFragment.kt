@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vehiclespage.R
 import com.example.vehiclespage.databinding.FragmentBookingReceiptBinding
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
@@ -67,7 +68,15 @@ class BookingReceiptFragment : Fragment() {
         val addOns = arguments?.getParcelableArrayList<AddOn>("addOns")
 
         // Calculate the total amount due by adding the prices of services and add-ons
-        val servicesTotal = services?.sumOf { it.price } ?: 0.0
+        val servicesTotal = services?.sumOf { service ->
+            when (classification) {
+                "Sedan" -> service.sedanPrice
+                "SUV" -> service.suvPrice
+                "Pickup" -> service.pickupPrice
+                else -> 0.0 // Default to 0 if classification is unknown
+            }
+        } ?: 0.0
+
         val addOnsTotal = addOns?.sumOf { it.price } ?: 0.0
         amountDue += servicesTotal + addOnsTotal + 20  // Add service and add-on prices to amountDue + fee
 
@@ -91,13 +100,15 @@ class BookingReceiptFragment : Fragment() {
         }
 
         // Set up RecyclerView for both services and add-ons
-        setupRecyclerView(binding.orderSummaryServices, allItems)
+        setupRecyclerView(binding.orderSummaryServices, allItems, classification ?: "")
 
         // Complete button logic
         val completeBtn = binding.completeButton
         completeBtn.setOnClickListener {
             // Generate Booking ID in format ND-123456
             val bookingId = generateBookingId()
+
+            val feedbackNote = view?.findViewById<TextInputEditText>(R.id.feedbackText)?.text?.toString()?.trim()
 
             // Prepare data structure to upload to Firebase
             val reservationData = hashMapOf<String, Any>(
@@ -106,12 +117,14 @@ class BookingReceiptFragment : Fragment() {
                 "vehicleName" to (vehicleName ?: ""),
                 "plateNumber" to (plateNumber ?: ""),
                 "classification" to (classification ?: ""),
+                "paymentMethod" to (paymentMethod ?: ""),
+                "note" to (feedbackNote ?: ""),
+                "status" to ("Pending"),
                 "services" to (services ?: emptyList<Service>()).map { service ->
                     mapOf(
                         "name" to service.name,
                         "estimatedTime" to service.estimatedTime,
-                        "price" to service.price,
-                        "serviceType" to service.serviceType
+                        "price" to service.getPriceForClassification(classification ?: "")
                     )
                 },
                 "addOns" to (addOns ?: emptyList<AddOn>()).map { addOn ->
@@ -156,10 +169,10 @@ class BookingReceiptFragment : Fragment() {
     }
 
 
-    private fun setupRecyclerView(recyclerView: RecyclerView, items: List<Any>?) {
+    private fun setupRecyclerView(recyclerView: RecyclerView, items: List<Any>?, classification: String) {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        val adapter = OrderSummaryAdapter(items ?: emptyList())
+        val adapter = OrderSummaryAdapter(items ?: emptyList(), classification)
         recyclerView.adapter = adapter
     }
 

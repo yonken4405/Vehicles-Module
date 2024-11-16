@@ -10,26 +10,38 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vehiclespage.R
+import com.example.vehiclespage.vehicleProfile
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import java.util.Random
 
 class ChooseServicesFragment : Fragment() {
     private lateinit var btnConfirmBooking: ImageButton // Declare btnConfirmBooking at the class level
-
     private lateinit var databaseReference: DatabaseReference
 
+//    private var branchName: String? = null
+//    private var branchAddress: String? = null
+//    private var branchContact: String? = null
+//    private var branchSchedule: String? = null
+
+    private var services: List<Service>? = null
+    private var addOns: List<AddOn>? = null
+    private var vehicleName: String? = null
+    private var plateNumber: String? = null
+    private var classification: String? = null
+    private var timeSlot: String? = null
+    private var selectedDate: String? = null
     private var branchName: String? = null
     private var branchAddress: String? = null
-    private var branchContact: String? = null
-    private var branchSchedule: String? = null
+    private var selectedVehicle: vehicleProfile? = null // Store the selected vehicle
+    //private var totalEstimatedTime: Int? = null // Store the selected vehicle
 
     private lateinit var serviceAdapter: ServiceAdapter
     private lateinit var addOnsAdapter: AddOnsAdapter
@@ -41,14 +53,23 @@ class ChooseServicesFragment : Fragment() {
 
     private var totalEstimatedTime: Int = 0 // in hours
 
+    private lateinit var codRadio: RadioButton
+    private lateinit var gcashRadio: RadioButton
+    private lateinit var cardRadio: RadioButton
+    private lateinit var confirmButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
+            vehicleName = it.getString("vehicleName")
+            plateNumber = it.getString("plateNumber")
+            classification = it.getString("classification")
+            timeSlot = it.getString("timeSlot")
+            selectedDate = it.getString("date")
             branchName = it.getString("branchName")
             branchAddress = it.getString("branchAddress")
-            branchContact = it.getString("branchContact")
-            branchSchedule = it.getString("branchSchedule")
+            totalEstimatedTime = it.getInt("totalEstimatedTime")
         }
     }
 
@@ -74,10 +95,14 @@ class ChooseServicesFragment : Fragment() {
 
         // Highlight all steps
         val circle1 = view.findViewById<View>(R.id.circle1)
+        val circle2 = view.findViewById<View>(R.id.circle2)
         val line1 = view.findViewById<View>(R.id.line1)
+        val line2 = view.findViewById<View>(R.id.line2)
 
         line1.setBackgroundColor(resources.getColor(R.color.colorPrimaryYellow))
         circle1.setBackgroundResource(R.drawable.circle_yellow)
+        line2.setBackgroundColor(resources.getColor(R.color.colorPrimaryYellow))
+        circle2.setBackgroundResource(R.drawable.circle_yellow)
 
         // Initialize btnConfirmBooking here
         btnConfirmBooking = view.findViewById(R.id.btnConfirmBooking)
@@ -87,18 +112,39 @@ class ChooseServicesFragment : Fragment() {
 
         databaseReference = FirebaseDatabase.getInstance().reference
 
+        // Initialize views
+        codRadio = view.findViewById(R.id.cod_radio)
+        gcashRadio = view.findViewById(R.id.gcash_radio)
+        cardRadio = view.findViewById(R.id.card_radio)
+
+        // Set listeners for manual toggling
+        codRadio.setOnClickListener {
+            gcashRadio.isChecked = false
+            cardRadio.isChecked = false
+        }
+
+        gcashRadio.setOnClickListener {
+            codRadio.isChecked = false
+            cardRadio.isChecked = false
+        }
+
+        cardRadio.setOnClickListener {
+            codRadio.isChecked = false
+            gcashRadio.isChecked = false
+        }
+
         val serviceRecyclerView = view.findViewById<RecyclerView>(R.id.rvServiceOptions)
         val addOnsRecyclerView = view.findViewById<RecyclerView>(R.id.rvAddOns)
         val timeSlotRecyclerView = view.findViewById<RecyclerView>(R.id.rvTimeSlots)
 
-        serviceAdapter = ServiceAdapter(getServices()) { selectedService ->
+        serviceAdapter = ServiceAdapter(mutableListOf()) { selectedService ->
             this.selectedServices = selectedService
             updateTotalTime()
         }
 
-        addOnsAdapter = AddOnsAdapter(getAddOns()) { selectedAddOn ->
-            this.selectedAddOns = selectedAddOn
-            updateTotalTime()
+        addOnsAdapter = AddOnsAdapter(mutableListOf()) { selectedAddOns ->
+            this.selectedAddOns = selectedAddOns
+            updateTotalTime() // Update total estimated time based on selected add-ons
         }
 
         timeSlotAdapter = TimeSlotAdapter(listOf(), selectedServices) { selectedTimeSlot ->
@@ -115,13 +161,19 @@ class ChooseServicesFragment : Fragment() {
         timeSlotRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         timeSlotRecyclerView.adapter = timeSlotAdapter
 
+        // Load services from Firebase
+        getServicesFromFirebase()
+
+        // Load add-ons from Firebase
+        getAddOnsFromFirebase()
+
         // Load time slots for the current date by default
         loadAvailableTimeSlots(defaultDate)
 
         btnSelectDate.setOnClickListener {
             val calendar = Calendar.getInstance()
             val datePickerDialog = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
-                val selectedDate ="${month + 1} /$dayOfMonth/$year"
+                val selectedDate = "${month + 1}/$dayOfMonth/$year"
                 btnSelectDate.text = selectedDate
                 loadAvailableTimeSlots(selectedDate)
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
@@ -132,28 +184,46 @@ class ChooseServicesFragment : Fragment() {
         // Confirm booking logic
         btnConfirmBooking.setOnClickListener {
             if (selectedServices.isNotEmpty() && selectedTimeSlot != null) {
-                // Pass the selected details to the vehicle selection page
-                updateTotalTime()
-                val bundle = Bundle().apply {
-                    putParcelableArrayList("services", ArrayList(selectedServices))
-                    putParcelableArrayList("addOns", ArrayList(selectedAddOns))
-                    putString("timeSlot", selectedTimeSlot?.time.toString()) // Pass only the time
-                    putString("date", btnSelectDate.text.toString())
-                    putString("branchName", branchName)
-                    putString("branchAddress", branchAddress)
-                    putInt("totalEstimatedTime", totalEstimatedTime)
+                val selectedPaymentMethod = when {
+                    codRadio.isChecked -> "COD"
+                    gcashRadio.isChecked -> "E-Wallet"
+                    cardRadio.isChecked -> "Card Payment"
+                    else -> null
                 }
-                val fragment = VehicleSelectionFragment()
-                fragment.arguments = bundle
 
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, fragment)
-                    .addToBackStack(null)
-                    .commit()
+                if (selectedPaymentMethod == null) {
+                    Toast.makeText(requireContext(), "Please select a payment method", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Pass the selected details to the booking receipt page
+                    updateTotalTime()
+                    val bundle = Bundle().apply {
+                        putParcelableArrayList("services", ArrayList(selectedServices))
+                        putParcelableArrayList("addOns", ArrayList(selectedAddOns))
+                        putString("timeSlot", selectedTimeSlot?.time.toString()) // Pass only the time
+                        putString("date", btnSelectDate.text.toString())
+                        putString("branchName", branchName)
+                        putString("branchAddress", branchAddress)
+                        putInt("totalEstimatedTime", totalEstimatedTime)
+                        putString("vehicleName", vehicleName)  // Pass vehicle name
+                        putString("plateNumber", plateNumber)  // Pass plate number
+                        putString("classification", classification)  // Pass classification
+                        putString("paymentMethod", selectedPaymentMethod)  // Pass payment method
+                    }
+                    val fragment = BookingReceiptFragment()
+                    fragment.arguments = bundle
+
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, fragment)
+                        .addToBackStack(null)
+                        .commit()
+                }
             } else {
                 Toast.makeText(requireContext(), "Please select service and time", Toast.LENGTH_SHORT).show()
             }
         }
+
+        // Load services from Firebase
+        getServicesFromFirebase()
 
         return view
     }
@@ -182,18 +252,64 @@ class ChooseServicesFragment : Fragment() {
         timeSlotAdapter.updateTimeSlots(defaultTimeSlots)
     }
 
-    private fun getServices(): List<Service> {
-        return listOf(
-            Service("Body Wash", 150.0, 2, "Sedan"),
-            Service("Value Wash", 185.0, 2, "SUV")
-        )
+    fun sanitizePathRemoveInvalidChars(path: String): String {
+        val invalidChars = listOf('.', '#', '$', '[', ']')
+        return path.filterNot { it in invalidChars }
     }
 
-    private fun getAddOns(): List<AddOn> {
-        return listOf(
-            AddOn("Armour All", 100.0, 1),
-            AddOn("Under Chassis", 200.0, 1)
-        )
+    private fun getServicesFromFirebase() {
+        databaseReference.child("Branches").child(sanitizePathRemoveInvalidChars(branchName ?: "")).child("Services").get().addOnSuccessListener { dataSnapshot ->
+            val services = mutableListOf<Service>()
+            dataSnapshot.children.forEach { snapshot ->
+                val name = snapshot.child("name").getValue(String::class.java) ?: ""
+                val sedanPrice = snapshot.child("sedanPrice").getValue(Double::class.java) ?: 0.0
+                val suvPrice = snapshot.child("suvPrice").getValue(Double::class.java) ?: 0.0
+                val pickupPrice = snapshot.child("pickupPrice").getValue(Double::class.java) ?: 0.0
+                val estimatedTime = snapshot.child("estimatedTime").getValue(Int::class.java) ?: 0
+
+                services.add(Service(name, sedanPrice, suvPrice, pickupPrice, estimatedTime))
+            }
+
+            // Now pass the selected classification to the service adapter
+            val updatedServices = services.map { service ->
+                service.copy(
+                    // Update price based on the selected vehicle classification
+                    sedanPrice = service.getPriceForClassification(classification ?: "Sedan")
+                )
+            }
+
+            // Update the service adapter with the data from Firebase
+            serviceAdapter.updateServices(updatedServices)
+        }.addOnFailureListener {
+            Toast.makeText(requireContext(), "Failed to load services", Toast.LENGTH_SHORT).show()
+        }
     }
+
+    private fun getAddOnsFromFirebase() {
+        val addOnsPath = sanitizePathRemoveInvalidChars(branchName ?: "")
+        databaseReference.child("Branches").child(addOnsPath).child("AddOns")
+            .get()
+            .addOnSuccessListener { dataSnapshot ->
+                // Create a mutable list to hold AddOn objects
+                val addOns = mutableListOf<AddOn>()
+                dataSnapshot.children.forEach { snapshot ->
+                    // Safely retrieve data from snapshot
+                    val name = snapshot.child("name").getValue(String::class.java) ?: ""
+                    val price = snapshot.child("price").getValue(Double::class.java) ?: 0.0
+                    val estimatedTime = snapshot.child("estimatedTime").getValue(Int::class.java) ?: 0
+
+                    // Add each add-on to the list
+                    addOns.add(AddOn(name, price, estimatedTime))
+                }
+
+                // Update the adapter with the fetched add-ons
+                addOnsAdapter.updateAddOns(addOns)
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to load add-ons", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+
 }
-

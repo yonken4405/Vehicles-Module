@@ -19,6 +19,9 @@ import com.example.vehiclespage.vehicleViewModel
 
 class VehicleSelectionFragment : Fragment() {
 
+    private var branchContact: String? = null
+    private var branchSchedule: String? = null
+
     private var services: List<Service>? = null
     private var addOns: List<AddOn>? = null
     private var timeSlot: String? = null
@@ -35,14 +38,21 @@ class VehicleSelectionFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            services = it.getParcelableArrayList("services")
-            addOns = it.getParcelableArrayList("addOns")
-            timeSlot = it.getString("timeSlot")
-            selectedDate = it.getString("date")
             branchName = it.getString("branchName")
             branchAddress = it.getString("branchAddress")
-            totalEstimatedTime = it.getInt("totalEstimatedTime")
+            branchContact = it.getString("branchContact")
+            branchSchedule = it.getString("branchSchedule")
         }
+
+//        arguments?.let {
+//            services = it.getParcelableArrayList("services")
+//            addOns = it.getParcelableArrayList("addOns")
+//            timeSlot = it.getString("timeSlot")
+//            selectedDate = it.getString("date")
+//            branchName = it.getString("branchName")
+//            branchAddress = it.getString("branchAddress")
+//            totalEstimatedTime = it.getInt("totalEstimatedTime")
+//        }
     }
 
     override fun onCreateView(
@@ -53,15 +63,10 @@ class VehicleSelectionFragment : Fragment() {
 
         // Highlight all steps
         val circle1 = view.findViewById<View>(R.id.circle1)
-        val circle2 = view.findViewById<View>(R.id.circle2)
         val line1 = view.findViewById<View>(R.id.line1)
-        val line2 = view.findViewById<View>(R.id.line2)
 
         line1.setBackgroundColor(resources.getColor(R.color.colorPrimaryYellow))
         circle1.setBackgroundResource(R.drawable.circle_yellow)
-        line2.setBackgroundColor(resources.getColor(R.color.colorPrimaryYellow))
-        circle2.setBackgroundResource(R.drawable.circle_yellow)
-
 
         // Initialize ViewModel
         viewModel = ViewModelProvider(this)[vehicleViewModel::class.java]
@@ -70,9 +75,11 @@ class VehicleSelectionFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvVehicles)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+
         // Pass the callback function to the adapter
         adapter = VehicleAdapter(mutableListOf(), viewModel) { selectedVehicle ->
             this.selectedVehicle = selectedVehicle // Save selected vehicle details
+
             Log.d("VehicleSelectionFragment", "Selected Vehicle: ${selectedVehicle.vname}, Plate: ${selectedVehicle.vplateNumber}")
         }
         recyclerView.adapter = adapter
@@ -89,20 +96,20 @@ class VehicleSelectionFragment : Fragment() {
             if (selectedVehicle != null) {
                 // Pass data to the next fragment
                 val bundle = Bundle().apply {
-                    putParcelableArrayList("services", ArrayList(services))
-                    putParcelableArrayList("addOns", ArrayList(addOns))
-                    putString("timeSlot", timeSlot) // Pass only the time
-                    putString("date", selectedDate)
+                    //putParcelableArrayList("services", ArrayList(services))
+                    //putParcelableArrayList("addOns", ArrayList(addOns))
+                    //putString("timeSlot", timeSlot) // Pass only the time
+                    //putString("date", selectedDate)
                     putString("branchName", branchName)
                     putString("branchAddress", branchAddress)
                     putString("vehicleName", selectedVehicle?.vname)  // Pass vehicle name
                     putString("plateNumber", selectedVehicle?.vplateNumber)  // Pass plate number
                     putString("classification", selectedVehicle?.vehicleClassification)  // Pass classification
-                    putInt("totalEstimatedTime", totalEstimatedTime ?: 0)
+                    //putInt("totalEstimatedTime", totalEstimatedTime ?: 0)
                 }
 
                 // Create the next fragment and set arguments
-                val fragment = BookingReceiptFragment().apply {
+                val fragment = ChooseServicesFragment().apply {
                     arguments = bundle
                 }
 

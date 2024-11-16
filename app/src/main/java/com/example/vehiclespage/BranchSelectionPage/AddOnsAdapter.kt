@@ -9,18 +9,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.vehiclespage.R
 
 class AddOnsAdapter(
-    private val addOns: List<AddOn>,
-    private val onAddOnsSelected: (List<AddOn>) -> Unit // Add this parameter
+    private var addOns: MutableList<AddOn>, // Make this mutable for updates
+    private val onAddOnsSelected: (List<AddOn>) -> Unit // Callback for selected add-ons
 ) : RecyclerView.Adapter<AddOnsAdapter.AddOnViewHolder>() {
+
+    // Set to track selected add-ons
     private val selectedAddOns = mutableSetOf<AddOn>()
 
     inner class AddOnViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val addOnName = itemView.findViewById<TextView>(R.id.tvAddOnName)
-        private val addOnPrice = itemView.findViewById<TextView>(R.id.tvAddOnPrice)
+        private val addOnName: TextView = itemView.findViewById(R.id.tvAddOnName)
+        private val addOnPrice: TextView = itemView.findViewById(R.id.tvAddOnPrice)
 
         fun bind(addOn: AddOn) {
             addOnName.text = addOn.name
-            addOnPrice.text = "₱ ${addOn.price}"
+            addOnPrice.text = "₱${"%.2f".format(addOn.price)}" // Format price to 2 decimal places
 
             // Highlight selected add-ons
             itemView.setBackgroundResource(
@@ -28,6 +30,7 @@ class AddOnsAdapter(
             )
 
             itemView.setOnClickListener {
+                // Toggle selection
                 if (selectedAddOns.contains(addOn)) {
                     selectedAddOns.remove(addOn)
                 } else {
@@ -35,10 +38,17 @@ class AddOnsAdapter(
                 }
                 notifyItemChanged(adapterPosition)
 
-                // Notify the parent fragment with the updated selected add-ons list
+                // Notify the parent with the updated list of selected add-ons
                 onAddOnsSelected(selectedAddOns.toList())
             }
         }
+    }
+
+    fun updateAddOns(newAddOns: List<AddOn>) {
+        // Clear current list and add new data
+        addOns.clear()
+        addOns.addAll(newAddOns)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddOnViewHolder {

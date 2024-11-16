@@ -39,13 +39,6 @@
             android:textColor="@color/normalFont"
             android:textSize="18sp" />
 
-        <ImageView
-            android:id="@+id/btnAdd"
-            android:layout_width="30dp"
-            android:layout_height="32dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/add_icon" />
     </RelativeLayout>
 
     <LinearLayout
@@ -128,6 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="8dp">
+
                 <TextView
                     android:id="@+id/tvChooseService"
                     android:layout_width="wrap_content"
@@ -152,9 +146,8 @@
             android:id="@+id/rvServiceOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:paddingHorizontal="18dp"
-            tools:listitem="@layout/item_service"/>
+            android:layout_marginVertical="12dp"
+            android:paddingHorizontal="18dp"/>
 
         <!-- Add-ons Section -->
             <LinearLayout
@@ -186,8 +179,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
-            android:paddingHorizontal="18dp"
-            tools:listitem="@layout/item_add_on"/>
+            android:paddingHorizontal="18dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -227,6 +219,273 @@
             android:layout_marginVertical="8dp"
             android:paddingHorizontal="18dp"
             tools:listitem="@layout/item_time_slot"/>
+
+            <TextView
+                android:id="@+id/tvPaymentMethod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Option"
+                android:fontFamily="@font/inter_semibold"
+                android:textColor="@color/blackHeader"
+                android:textSize="18sp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/receipt_layout_bg"
+                android:orientation="vertical"
+                android:paddingBottom="12dp"
+                android:paddingTop="4dp">
+
+
+                <LinearLayout
+                    android:id="@+id/payment_method_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <!-- COD Option -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="8dp">
+
+                        <ImageView
+                            android:layout_marginTop="8dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="top"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/cod_ic" />
+
+                        <LinearLayout
+                            android:layout_marginTop="4dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="16dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Cash on Delivery (COD)"
+                                android:textColor="@color/colorPrimaryYellow"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="180dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginBottom="8dp"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Pay cash on delivery for your purchase when it arrives at your doorstep."
+                                android:textColor="@color/grayFont"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <RadioButton
+                            android:id="@+id/cod_radio"
+                            android:layout_width="28dp"
+                            android:layout_height="60dp"
+                            android:gravity="top"
+                            android:layout_gravity="end|top"
+                            app:buttonTint="@color/colorPrimaryYellow"
+                            app:useMaterialThemeColors="false"
+                            android:scaleX="0.8"
+                            android:scaleY="0.8"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#D1D0D0" />
+
+                    <!-- GCASH Option -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="8dp">
+
+                        <ImageView
+                            android:layout_marginTop="8dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="top"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ewallet_ic" />
+
+                        <LinearLayout
+                            android:layout_marginTop="4dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="16dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Pay Using E-Wallet"
+                                android:textColor="@color/colorPrimaryYellow"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="180dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Pay using supported e-wallet payment methods such as G-cash,
+Maya, and more."
+                                android:textColor="@color/grayFont"
+                                android:textSize="10sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="3dp">
+
+                                <ImageView
+                                    android:layout_width="22.63dp"
+                                    android:layout_height="28.29dp"
+                                    android:layout_gravity="top"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/gcash_logo" />
+
+                                <ImageView
+                                    android:layout_marginHorizontal="2.5dp"
+                                    android:layout_width="20.5dp"
+                                    android:layout_height="20.5dp"
+                                    android:layout_gravity="center"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/paymaya_ic" />
+
+                                <ImageView
+                                    android:layout_width="22.63dp"
+                                    android:layout_height="28.29dp"
+                                    android:layout_gravity="top"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/gcash_logo" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <RadioButton
+                            android:id="@+id/gcash_radio"
+                            android:layout_width="28dp"
+                            android:layout_height="80dp"
+                            android:gravity="top"
+                            android:layout_gravity="end|top"
+                            app:buttonTint="@color/colorPrimaryYellow"
+                            app:useMaterialThemeColors="false"
+                            android:scaleX="0.8"
+                            android:scaleY="0.8"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#D1D0D0" />
+
+                    <!-- Card Option -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="8dp">
+
+                        <ImageView
+                            android:layout_marginTop="8dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="top"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/credit_card_ic" />
+
+                        <LinearLayout
+                            android:layout_marginTop="4dp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="16dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Pay Using Card"
+                                android:textColor="@color/colorPrimaryYellow"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="180dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:fontFamily="@font/inter_semibold"
+                                android:text="Pay using supported Debit/Credit cards such as Mastercard and Visa are supported."
+                                android:textColor="@color/grayFont"
+                                android:textSize="10sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="8dp">
+
+                                <ImageView
+                                    android:layout_width="33.93dp"
+                                    android:layout_height="19dp"
+                                    android:layout_gravity="top"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/visa_ic" />
+
+                                <ImageView
+                                    android:layout_marginHorizontal="5dp"
+                                    android:layout_width="24.47dp"
+                                    android:layout_height="19dp"
+                                    android:layout_gravity="center"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/mastercard_ic" />
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <RadioButton
+                            android:id="@+id/card_radio"
+                            android:layout_width="28dp"
+                            android:layout_height="80dp"
+                            android:gravity="top"
+                            android:layout_gravity="end|top"
+                            app:buttonTint="@color/colorPrimaryYellow"
+                            app:useMaterialThemeColors="false"
+                            android:scaleX="0.8"
+                            android:scaleY="0.8"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
 
         <!-- Confirm Button -->
         <ImageButton

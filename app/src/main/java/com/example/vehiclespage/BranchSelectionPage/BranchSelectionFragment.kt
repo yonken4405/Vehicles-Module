@@ -215,7 +215,7 @@ class BranchSelectionFragment : Fragment(), OnMapReadyCallback {
 
                 bottomSheetBinding.orderButton.setOnClickListener{
                     bottomSheetDialog.dismiss() // Close the bottom sheet
-                    navigateToChooseServicesFragment(profile)
+                    navigateToVehicleSelectionFragment(profile)
                 }
 
             } ?: run {
@@ -226,7 +226,7 @@ class BranchSelectionFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun navigateToChooseServicesFragment(profile: BranchProfile) {
+    private fun navigateToVehicleSelectionFragment(profile: BranchProfile) {
         val bundle = Bundle().apply {
             putString("branchName", profile.name)
             putString("branchAddress", profile.address)
@@ -234,7 +234,7 @@ class BranchSelectionFragment : Fragment(), OnMapReadyCallback {
             putString("branchSchedule", profile.schedule)
         }
 
-        val orderFragment = ChooseServicesFragment().apply {
+        val orderFragment = VehicleSelectionFragment().apply {
             arguments = bundle
         }
 

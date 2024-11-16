@@ -9,7 +9,7 @@ import com.example.vehiclespage.R
 import com.example.vehiclespage.databinding.ItemOrderSummaryBinding
 
 
-class OrderSummaryAdapter(private val items: List<Any>) : RecyclerView.Adapter<OrderSummaryAdapter.OrderSummaryViewHolder>() {
+class OrderSummaryAdapter(private val items: List<Any>, private val classification: String) : RecyclerView.Adapter<OrderSummaryAdapter.OrderSummaryViewHolder>() {
 
     // Define different view types for services and add-ons
     companion object {
@@ -59,8 +59,10 @@ class OrderSummaryAdapter(private val items: List<Any>) : RecyclerView.Adapter<O
         // Bind service data to the view
         fun bindService(service: Service) {
             binding.serviceName.text = service.name
-            binding.serviceAmount.text = "₱${"%.2f".format(service.price)}"
+            // Replace service.price with service.getPriceForClassification(classification)
+            binding.serviceAmount.text = "₱${"%.2f".format(service.getPriceForClassification(classification))}" // Use classification appropriately
         }
+
 
         // Bind add-on data to the view
         fun bindAddOn(addOn: AddOn) {

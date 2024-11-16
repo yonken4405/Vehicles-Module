@@ -38,13 +38,6 @@
             android:textColor="@color/normalFont"
             android:textSize="18sp" />
 
-        <ImageView
-            android:id="@+id/btnAdd"
-            android:layout_width="30dp"
-            android:layout_height="32dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/add_icon" />
     </RelativeLayout>
 
     <LinearLayout
@@ -166,7 +159,7 @@
 
                 <TextView
                     android:id="@+id/branch_address"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
                     android:fontFamily="@font/inter_regular"
@@ -473,18 +466,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/estimated_completion" />
 
-                <!-- Note to Branch -->
-                <TextView
-                    android:id="@+id/note_to_branch_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/inter_semibold"
-                    android:text="Note to Branch"
-                    android:textColor="@color/primaryFont"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/summary_divider7" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -493,10 +474,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:enabled="false"
+                    android:hint="Note to Branch"
                     android:textColorHint="@color/lighterFont"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/note_to_branch_label"
+                    app:layout_constraintTop_toBottomOf="@+id/summary_divider7"
                     tools:layout_editor_absoluteY="704dp">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -508,7 +489,6 @@
                         android:imeOptions="actionDone"
                         android:inputType="textMultiLine"
                         android:lines="3"
-                        android:text="note"
                         android:textColor="@color/grayFont"
                         android:textSize="10sp" />
                 </com.google.android.material.textfield.TextInputLayout>
