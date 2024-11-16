@@ -1,6 +1,7 @@
 package com.example.vehiclespage
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.DataSnapshot
@@ -15,9 +16,16 @@ class vehicleViewModel : ViewModel(){
     //View model: 3. basically holds the list vehicles(?) that will be displayed on the rv
     val vehicleList = MutableLiveData<MutableList<vehicleProfile>>(mutableListOf())//list of all the vehicles
 
+    private val _vehicleClassification = MutableLiveData<String>()
+    val vehicleClassification: LiveData<String> get() = _vehicleClassification
+
     init {// The fetchVehicles() function is called in the init block,
         // so data fetching starts as soon as the ViewModel is created.
         fetchVehicles()
+    }
+
+    fun setVehicleClassification(classification: String) {
+        _vehicleClassification.value = classification
     }
 
     fun addVehicle(vehicle: vehicleProfile) {//function to add the current vehicle details to the vehicleList(used earlier number 2)

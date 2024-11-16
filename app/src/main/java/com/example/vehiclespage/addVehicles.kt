@@ -98,6 +98,9 @@ class addVehicles : Fragment(R.layout.fragment_add_vehicles) {
             adapter.insert(updatedItem, index) // Insert the updated item at the same position
             adapter.notifyDataSetChanged() // Notify the adapter of the change
         }
+
+        // Store the classification string in the vehicle profile
+        vehicleViewModel.setVehicleClassification(selectedItem.carType)
     }
 
 
@@ -118,7 +121,11 @@ class addVehicles : Fragment(R.layout.fragment_add_vehicles) {
         binding.btnDone.setOnClickListener {
             val vehicleName = binding.etVehicleName.text.toString()
             val vehiclePlateNumber = binding.etVehiclePlateNumber.text.toString()
-            val vehicle = vehicleProfile(vehicleName, vehiclePlateNumber, selectedImageResId)
+
+            // Get the selected classification string from the ViewModel
+            val vehicleClassification = vehicleViewModel.vehicleClassification.value ?: ""
+
+            val vehicle = vehicleProfile(vehicleName, vehiclePlateNumber, selectedImageResId, vehicleClassification)
 
             // Define the restricted characters
             val restrictedChars = setOf('.', '#', '$', '[', ']')

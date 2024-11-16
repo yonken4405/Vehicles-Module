@@ -19,4 +19,8 @@
     <color name="disabledTextColor">#61000000</color> <!-- 38% opacity black -->
     <color name="errorTextColor">#B00020</color> <!-- Red 700 -->
 
+    <color name="grayFont">#898888</color>
+    <color name="blackHeader">#4A4A4A</color><!-- 1E1E1E 80% -->
+    <color name="grayHeader">#AFAFAF</color><!-- 7F7F7F 60% -->
+
 </resources>

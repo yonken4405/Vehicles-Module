@@ -32,6 +32,10 @@
         <item name="iconTint">@null</item>
     </style>
 
+    <style name="BtnOutline" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/colorPrimaryYellow</item>
+    </style>
+
 
 
 </resources>
