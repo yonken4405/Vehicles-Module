@@ -1,7 +1,6 @@
 package com.example.vehiclespage.BranchSelectionPage
 
 import AddOn
-import TimeSlot
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,13 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vehiclespage.R
-import com.example.vehiclespage.vehicleProfile
-import com.example.vehiclespage.vehicleViewModel
+import com.example.vehiclespage.VehiclesPage.vehicleProfile
+import com.example.vehiclespage.VehiclesPage.vehicleViewModel
 
 class VehicleSelectionFragment : Fragment() {
 
@@ -122,6 +122,11 @@ class VehicleSelectionFragment : Fragment() {
                 // Handle the case where no vehicle is selected
                 Toast.makeText(context, "Please select a vehicle", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        val btnBack = view.findViewById<ImageView>(R.id.btnBack)
+        btnBack.setOnClickListener{
+            parentFragmentManager.popBackStack()
         }
 
         return view

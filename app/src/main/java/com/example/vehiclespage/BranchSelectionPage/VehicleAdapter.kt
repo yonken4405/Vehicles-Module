@@ -1,16 +1,14 @@
 package com.example.vehiclespage.BranchSelectionPage
 
-import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vehiclespage.R
 import com.example.vehiclespage.databinding.VehicleOptionsBinding
-import com.example.vehiclespage.vehicleProfile
-import com.example.vehiclespage.vehicleViewModel
+import com.example.vehiclespage.VehiclesPage.vehicleProfile
+import com.example.vehiclespage.VehiclesPage.vehicleViewModel
 
 class VehicleAdapter(
     var vehicles: MutableList<vehicleProfile>,

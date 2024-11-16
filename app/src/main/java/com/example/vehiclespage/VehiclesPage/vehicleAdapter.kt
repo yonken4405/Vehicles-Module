@@ -1,8 +1,6 @@
-package com.example.vehiclespage
+package com.example.vehiclespage.VehiclesPage
 
-import DeletedDialogFragment
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vehiclespage.R
-import com.example.vehiclespage.vehicleProfile
 import com.example.vehiclespage.databinding.VehicleProfileBinding//6.1 binding neccessity
 
 class vehicleAdapter(

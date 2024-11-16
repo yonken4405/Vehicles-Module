@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -149,15 +150,18 @@ class BookingReceiptFragment : Fragment() {
             reservationsRef.child("Reservations").child(currentDate).child(bookingId).setValue(reservationData)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        // Data uploaded successfully
-                        Toast.makeText(requireContext(), "Booking successfully completed!", Toast.LENGTH_SHORT).show()
-                        // You can add further navigation or success logic here if needed
+                        // Show the confirmation dialog with the booking ID
+                        val confirmationDialog = BookingConfirmationDialogFragment.newInstance(bookingId)
+                        confirmationDialog.show(requireActivity().supportFragmentManager, "BookingConfirmation")
                     } else {
                         // Handle failure case
                         Toast.makeText(requireContext(), "Failed to complete booking. Please try again.", Toast.LENGTH_SHORT).show()
                     }
                 }
+        }
 
+        binding.btnBack.setOnClickListener{
+            parentFragmentManager.popBackStack()
         }
 
         return binding.root

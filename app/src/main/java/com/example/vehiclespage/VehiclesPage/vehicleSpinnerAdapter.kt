@@ -1,13 +1,10 @@
-package com.example.vehiclespage
+package com.example.vehiclespage.VehiclesPage
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.TextView
 import com.example.vehiclespage.databinding.VehiclesDropdownBinding
 
 class vehicleSpinnerAdapter(context: Context, private val items: List<spinnerItems>) :

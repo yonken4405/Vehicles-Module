@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment
 import com.example.vehiclespage.R
 import com.example.vehiclespage.databinding.FragmentGoogleMapsBinding
 import com.example.vehiclespage.databinding.BranchProfileBottomSheetBinding
-import com.example.vehiclespage.myVehicles
+import com.example.vehiclespage.VehiclesPage.myVehicles
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory

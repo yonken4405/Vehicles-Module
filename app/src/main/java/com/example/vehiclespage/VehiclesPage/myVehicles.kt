@@ -1,6 +1,5 @@
-package com.example.vehiclespage
+package com.example.vehiclespage.VehiclesPage
 
-import DeletedDialogFragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,9 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vehiclespage.BranchSelectionPage.BranchSelectionFragment
+import com.example.vehiclespage.R
 import com.example.vehiclespage.databinding.FragmentMyVehiclesBinding
 
-class myVehicles : Fragment(R.layout.fragment_my_vehicles), vehicleAdapter.OnVehicleDeletedListener {
+class myVehicles : Fragment(R.layout.fragment_my_vehicles),
+    vehicleAdapter.OnVehicleDeletedListener {
     private var _binding: FragmentMyVehiclesBinding? = null
     private val binding get() = _binding!!
 

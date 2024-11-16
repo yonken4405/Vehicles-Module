@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    android:padding="0dp"
+    android:layout_margin="0dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="208dp"
+        android:src="@drawable/confirmation_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:alpha=".7"
+        android:fontFamily="@font/inter_semibold"
+        android:gravity="center"
+        android:text="Appointment Confirmed"
+        android:textColor="@color/normalFont"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".6"
+            android:fontFamily="@font/inter_medium"
+            android:gravity="center"
+            android:text="Your appointment ID is "
+            android:textColor="#575555"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/appointmentId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha=".8"
+            android:fontFamily="@font/inter_semibold"
+            android:gravity="center"
+            android:text=" 123"
+            android:textColor="@color/blackHeader"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/myBookingsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/colorPrimaryYellow"
+        android:elevation="2dp"
+        android:fontFamily="@font/inter_semibold"
+        android:insetBottom="0dp"
+        android:text="My Bookings"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/homeBtn"
+        style="@style/BtnOutline"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/white"
+        android:fontFamily="@font/inter_semibold"
+        android:strokeColor="@color/colorPrimaryYellow"
+        android:text="Home"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryYellow"
+        android:textSize="13sp"
+        app:cornerRadius="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myBookingsBtn"
+        app:strokeWidth="1dp" />
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

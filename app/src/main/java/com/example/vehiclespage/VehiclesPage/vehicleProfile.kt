@@ -1,4 +1,4 @@
-package com.example.vehiclespage
+package com.example.vehiclespage.VehiclesPage
 
 data class vehicleProfile (
     val vname: String,

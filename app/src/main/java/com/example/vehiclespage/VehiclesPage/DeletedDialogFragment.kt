@@ -1,3 +1,4 @@
+package com.example.vehiclespage.VehiclesPage
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -5,9 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.vehiclespage.R
-import com.example.vehiclespage.myVehicles
 
-class SuccessDialogFragment : DialogFragment() {
+class DeletedDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,13 +18,12 @@ class SuccessDialogFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vehicle_added, container, false)
+        return inflater.inflate(R.layout.fragment_vehicle_deleted, container, false)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(R.color.colorPrimaryYellow)
         return dialog
     }
 
@@ -32,11 +31,9 @@ class SuccessDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         view.setOnClickListener {
             dismiss()
-            val myVehicles = myVehicles()
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, myVehicles) // Use requireActivity() here
-                .addToBackStack(null) // Optional: Add to back stack for navigation
-                .commit()
         }
     }
+
+
+
 }

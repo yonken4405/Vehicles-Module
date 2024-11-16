@@ -1,4 +1,4 @@
-package com.example.vehiclespage
+package com.example.vehiclespage.VehiclesPage
 
 import android.util.Log
 import androidx.lifecycle.LiveData

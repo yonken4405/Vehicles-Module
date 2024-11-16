@@ -1,3 +1,4 @@
+package com.example.vehiclespage.VehiclesPage
 
 import android.app.Dialog
 import android.os.Bundle
@@ -7,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.vehiclespage.R
 
-class DeletedDialogFragment : DialogFragment() {
+class SuccessDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,12 +19,13 @@ class DeletedDialogFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_vehicle_deleted, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_vehicle_added, container, false)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(R.color.colorPrimaryYellow)
         return dialog
     }
 
@@ -31,9 +33,11 @@ class DeletedDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         view.setOnClickListener {
             dismiss()
+            val myVehicles = myVehicles()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, myVehicles) // Use requireActivity() here
+                .addToBackStack(null) // Optional: Add to back stack for navigation
+                .commit()
         }
     }
-
-
-
 }

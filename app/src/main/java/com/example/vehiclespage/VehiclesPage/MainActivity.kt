@@ -1,10 +1,11 @@
-package com.example.vehiclespage
+package com.example.vehiclespage.VehiclesPage
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.vehiclespage.R
 import com.example.vehiclespage.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

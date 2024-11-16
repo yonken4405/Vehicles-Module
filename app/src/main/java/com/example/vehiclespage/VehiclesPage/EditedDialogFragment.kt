@@ -1,3 +1,5 @@
+package com.example.vehiclespage.VehiclesPage
+
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -5,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.vehiclespage.R
-import com.example.vehiclespage.myVehicles
 
 class EditedDialogFragment : DialogFragment() {
 
@@ -24,7 +25,7 @@ class EditedDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(R.color.colorPrimaryYellow)
         return dialog
     }
 

@@ -10,12 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vehiclespage.R
-import com.example.vehiclespage.vehicleProfile
+import com.example.vehiclespage.VehiclesPage.vehicleProfile
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
@@ -224,6 +225,11 @@ class ChooseServicesFragment : Fragment() {
 
         // Load services from Firebase
         getServicesFromFirebase()
+
+        val btnBack = view.findViewById<ImageView>(R.id.btnBack)
+        btnBack.setOnClickListener{
+            parentFragmentManager.popBackStack()
+        }
 
         return view
     }

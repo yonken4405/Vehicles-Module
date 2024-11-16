@@ -1,49 +1,44 @@
-package com.example.vehiclespage
+package com.example.vehiclespage.VehiclesPage
 
-import SuccessDialogFragment
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
-import android.text.TextWatcher
-import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Spinner
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.vehiclespage.databinding.FragmentAddVehiclesBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import com.example.vehiclespage.R
+import com.example.vehiclespage.databinding.FragmentEditVehiclesBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 
-class addVehicles : Fragment(R.layout.fragment_add_vehicles) {
-    private var _binding: FragmentAddVehiclesBinding? = null
+class EditVehicles : Fragment(R.layout.fragment_edit_vehicles) {
+    private var _binding: FragmentEditVehiclesBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: vehicleSpinnerAdapter
     val vehicleViewModel: vehicleViewModel by activityViewModels()
     private var selectedImageResId: Int = -1 // Variable to store selected image resource ID
     private lateinit var databaseReference : DatabaseReference
 
+    companion object {
+        const val ARG_VEHICLE_NAME = "arg_vehicle_name"
+        const val ARG_VEHICLE_PLATE = "arg_vehicle_plate"
+        const val ARG_VEHICLE_IMAGE = "arg_vehicle_image"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentAddVehiclesBinding.inflate(inflater, container, false)
+        _binding = FragmentEditVehiclesBinding.inflate(inflater, container, false)
         val spinner = binding.spVehicles // Reference spinner from layout
 
         val items = mutableListOf(
-            spinnerItems(0, "Vehicle Classification", ""),
             spinnerItems(R.drawable.sedan, "Sedan","(EX: Toyota Vios, Honda City, Toyota Corolla)"),
             spinnerItems(R.drawable.suv, "SUV","(EX: Toyota Fortuner, Ford Everest, Suzuki Jimny)"),
             spinnerItems(R.drawable.pickup, "Pick Up","(EX: Toyota Hilux, Ford Ranger, Nissan Navara)"),
@@ -58,14 +53,8 @@ class addVehicles : Fragment(R.layout.fragment_add_vehicles) {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItem = adapter.getItem(position)
-                if (position == 0) {
-                    // Handle hint selection (e.g., reset selectedImageResId, disable "Done" button)
-                    selectedImageResId = -1
-                } else {
-                    val selectedItem = adapter.getItem(position)
-                    if (selectedItem != null) {
-                        handleSelectedItem(selectedItem)
-                    }
+                if (selectedItem != null) {
+                    handleSelectedItem(selectedItem)
                 }
             }
 
@@ -73,6 +62,20 @@ class addVehicles : Fragment(R.layout.fragment_add_vehicles) {
                 // Handle as needed
             }
         }
+
+        // Get the default image resource ID from arguments
+        val defaultImageResId = arguments?.getInt(ARG_VEHICLE_IMAGE, -1) ?: -1
+
+        // Find the index of the item with the default image
+        val defaultIndex = (0 until adapter.count).find {
+            adapter.getItem(it)?.carPic == defaultImageResId
+        }
+
+        // Set the default selection
+        if (defaultIndex != null) {
+            spinner.setSelection(defaultIndex)
+        }
+
         return binding.root
     }
 
@@ -106,8 +109,25 @@ class addVehicles : Fragment(R.layout.fragment_add_vehicles) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentAddVehiclesBinding.bind(view)
-        binding.etVehiclePlateNumber.filters = arrayOf<InputFilter>(AllCapsLengthFilter(10))
+        _binding = FragmentEditVehiclesBinding.bind(view)
+        databaseReference = FirebaseDatabase.getInstance().getReference("Vehicle Information")
+        binding.etVehiclePlateNumber.filters = arrayOf<InputFilter>(AllCapsLengthFilter(10))//filter 1
+
+        val vehicleName = arguments?.getString(ARG_VEHICLE_NAME)
+        val vehiclePlate = arguments?.getString(ARG_VEHICLE_PLATE)
+        val vehicleImageResId = arguments?.getInt(ARG_VEHICLE_IMAGE)
+
+        if (vehicleName != null && vehiclePlate != null && vehicleImageResId != null) {
+            binding.etVehicleName.setText(vehicleName)
+            binding.etVehiclePlateNumber.setText(vehiclePlate)
+            selectedImageResId = vehicleImageResId // Set the initial selected image
+
+            // Find the index of the item with the matching image resource ID
+            val defaultPosition = adapter.getItems().indexOfFirst { it.carPic == vehicleImageResId }
+            if (defaultPosition != -1) {
+                binding.spVehicles.setSelection(defaultPosition)
+            }
+        }
 
         binding.btnBack.setOnClickListener {
             val myVehicles = myVehicles()
@@ -117,83 +137,83 @@ class addVehicles : Fragment(R.layout.fragment_add_vehicles) {
                 .commit()
         }
 
-        //View model: 1. get the data from the input fields
-        binding.btnDone.setOnClickListener {
-            val vehicleName = binding.etVehicleName.text.toString()
-            val vehiclePlateNumber = binding.etVehiclePlateNumber.text.toString()
+        binding.btnDone.setOnClickListener{
+            val updatedVehicleName = binding.etVehicleName.text.toString()
+            val updatedVehiclePlateNumber = binding.etVehiclePlateNumber.text.toString()
 
             // Get the selected classification string from the ViewModel
             val vehicleClassification = vehicleViewModel.vehicleClassification.value ?: ""
 
-            val vehicle = vehicleProfile(vehicleName, vehiclePlateNumber, selectedImageResId, vehicleClassification)
+            val updatedVehicle = vehicleProfile(updatedVehicleName, updatedVehiclePlateNumber, selectedImageResId, vehicleClassification)
 
-            // Define the restricted characters
+            //  filter 2: Define the restricted characters
             val restrictedChars = setOf('.', '#', '$', '[', ']')
 
             // Check for restricted characters
-            if (restrictedChars.any { it in vehiclePlateNumber }) {
+            if (restrictedChars.any { it in updatedVehiclePlateNumber }) {
                 binding.etVehiclePlateNumber.error = "Plate number cannot contain: ${restrictedChars.joinToString("")}"
                 return@setOnClickListener // Stop further processing
             }
 
-            if (vehicleName.isEmpty() || vehiclePlateNumber.isEmpty() || selectedImageResId == -1 || selectedImageResId == 0) {
-                if (vehicleName.isEmpty() && vehiclePlateNumber.isEmpty() && selectedImageResId == -1 || selectedImageResId == 0){
+            if (updatedVehicleName.isEmpty() || updatedVehiclePlateNumber.isEmpty() || selectedImageResId == -1) {
+                if (updatedVehicleName.isEmpty() && updatedVehiclePlateNumber.isEmpty() && selectedImageResId == -1){
                     Toast.makeText(requireContext(), "Please supply the necessary details", Toast.LENGTH_SHORT).show()
                 }else{
-                    if (vehicleName.isEmpty()) {
+                    if (updatedVehicleName.isEmpty()) {
                         binding.etVehicleName.error = "Vehicle name is required"
                     }
-                    if (vehiclePlateNumber.isEmpty()) {
+                    if (updatedVehiclePlateNumber.isEmpty()) {
                         binding.etVehiclePlateNumber.error = "Vehicle plate number is required"
                     }
-                    if (selectedImageResId == -1 || selectedImageResId == 0) {
+                    if (selectedImageResId == -1) {
                         Toast.makeText(requireContext(), "Please select a vehicle type", Toast.LENGTH_SHORT).show()
                     }
-               }
+                }
                 return@setOnClickListener
             }else{
-
-                Log.e("Submit", "Button Clicked")
-
-                //upload to database
-                databaseReference = FirebaseDatabase.getInstance().getReference("Vehicle Information")
-
-                // Check if vehiclePlateNumber already exists
-                databaseReference.child(vehiclePlateNumber).addListenerForSingleValueEvent(object :
-                    ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()) {
-                            Log.e("Submit", "Duplicate on database")
-                            // Plate number already exists, show error
-                            binding.etVehiclePlateNumber.error = "Plate number already registered"
-                        } else {
-                            Log.e("Submit", "Uploaded to database")
-                            // Plate number is unique, proceed with upload
-                            databaseReference.child(vehiclePlateNumber).setValue(vehicle)
-
-                            vehicleViewModel.addVehicle(vehicle)
-
-                            val successDialog = SuccessDialogFragment()
-                            successDialog.show(parentFragmentManager, "successDialog")
-                        }
+                // Handle plate number change
+                vehiclePlate?.let { originalPlate ->
+                    if (originalPlate != updatedVehiclePlateNumber) {
+                        // Plate number has changed, delete old record and add new one
+                        databaseReference.child(originalPlate).removeValue() // Delete old record
+                            .addOnSuccessListener {
+                                // Add new record with updated plate number
+                                databaseReference.child(updatedVehiclePlateNumber).setValue(updatedVehicle)
+                                    .addOnSuccessListener {
+                                        val editedDialog = EditedDialogFragment()
+                                        editedDialog.show(parentFragmentManager, "editedDialog")
+                                    }
+                                    .addOnFailureListener {
+                                        // Handle update failure
+                                        // ... (show error message) ...
+                                    }
+                            }
+                            .addOnFailureListener {
+                                // Handle deletion failure
+                                // ... (show error message) ...
+                            }
+                    } else {
+                        // Plate number remains the same, just update the other fields
+                        databaseReference.child(originalPlate).setValue(updatedVehicle)
+                            .addOnSuccessListener {
+                                val editedDialog = EditedDialogFragment()
+                                editedDialog.show(parentFragmentManager, "editedDialog")
+                            }
+                            .addOnFailureListener {
+                                // Handle update failure
+                                // ... (show error message) ...
+                            }
                     }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        Log.e("FirebaseError", "Error checking plate number: ${error.message}")
-                    }
-                })
-
+                }
             }
 
         }
 
+
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
+    //filter 3
     class AllCapsLengthFilter(private val maxLength: Int) : InputFilter {
         override fun filter(
             source: CharSequence,
@@ -219,5 +239,8 @@ class addVehicles : Fragment(R.layout.fragment_add_vehicles) {
 
 
 
+
+
 }
+
 
