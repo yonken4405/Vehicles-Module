@@ -21,7 +21,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBh0yScv90M5oPfocxJVvNhnHTfB1eCBzY" />
+            android:value="" />
 
         <activity
             android:name=".VehiclesPage.MainActivity"
